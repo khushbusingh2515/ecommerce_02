@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load cart %}
+{% block title %}
+Cart
+{% endblock title %}
+
+{% block body %}
+<div class="container my-3">
+    <table class="table table-dark table-hover">
+        <tr class="text-center">
+            <th>S No</th>
+            <th>Product Name</th>
+            <th>Product Image</th>
+            <th>Product Price</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+        </tr>
+        {% for p in product %}
+                <tr class="text-center">
+                    <td>{{forloop.counter}}</td>
+                    <td>{{p.product_name}}</td>
+                    <td>
+                        <img src="{{p.product_image.url}}" alt="" width=50 height=50>
+                    </td>
+                    <td>Rs.{{p.product_price}}</td>
+                    <td>
+                         {{p|cart_quantity:request.session.cart}}
+                    </td>
+                    <td>
+                        Rs.{{p|total_price:request.session.cart}}</td>
+                </tr>
+        {% endfor %}
+        <tr class="text-center">
+            <td colspan=4>
+                <h1>
+                    Payable Amount:
+                </h1>
+            </td>
+            <td>
+                Rs.{{product|payable_amount:request.session.cart}}
+            </td>
+            <td>
+                <button class="btn btn-primary">
+                        checkout
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+{% endblock body %}
